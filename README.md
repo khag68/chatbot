@@ -64,7 +64,7 @@ const response = await fetch('http://localhost:3000/chat/message', {
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify({
     message: "Bonjour, comment allez-vous ?",
-    model: "claude-3-sonnet-20240229",
+    model: "claude-sonnet-4-20250514",
     maxTokens: 1024,
     temperature: 0.7
   })
