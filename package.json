@@ -6,7 +6,9 @@
     "dev": "bun run --watch src/index.ts"
   },
   "dependencies": {
-    "elysia": "latest"
+    "@anthropic-ai/sdk": "^0.57.0",
+    "elysia": "latest",
+    "openai": "^5.10.1"
   },
   "devDependencies": {
     "bun-types": "latest"
