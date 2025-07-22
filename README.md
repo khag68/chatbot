@@ -6,7 +6,6 @@ Une API moderne et scalable pour chatbot utilisant le SDK Anthropic Claude avec 
 
 - 🤖 Intégration complète avec Anthropic Claude
 - 💬 Gestion des conversations persistantes
-- 🔄 Support des messages multiples par conversation
 - 📝 Documentation API automatique avec Swagger
 - 🎛️ Configuration flexible des modèles
 - ⚡ Performance optimisée avec Bun
