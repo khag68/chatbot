@@ -4,8 +4,10 @@ import { swagger } from '@elysiajs/swagger';
 import { config } from './config';
 import { errorMiddleware } from './Middleware/error.middleware';
 import { ChatController } from './Controllers/chatController';
+import { AgentController } from './Controllers/agentController';
 
 const chatController = new ChatController();
+const agentController = new AgentController();
 
 const app = new Elysia()
   .use(cors(config.cors))
@@ -33,6 +35,7 @@ const app = new Elysia()
     timestamp: new Date()
   }))
   .use(chatController.routes())
+  .use(agentController.routes())
   .listen(config.port);
 
 console.log(`🚀 Serveur démarré sur http://localhost:${config.port}`);

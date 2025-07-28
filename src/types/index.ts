@@ -30,6 +30,7 @@ export interface ChatResponse {
     inputTokens: number;
     outputTokens: number;
   };
+  role?: 'user' | 'assistant';
 }
 
 export interface ApiError {
