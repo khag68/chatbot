@@ -1,0 +1,97 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Shop {
+  id            String         @id @default(auto()) @map("_id") @db.ObjectId
+  name          String
+  description   String?
+  domain        String
+  location      String?
+  email         String?        @unique
+  phone         String?
+  agents        Agent[]
+  users         User[]
+  conversations Conversation[]
+  sessions      Session[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  @@index([domain])
+}
+
+model Conversation {
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  title      String?
+  historique String?
+  contexte   String?
+  userId     String?   @db.ObjectId
+  user       User?     @relation(fields: [userId], references: [id])
+  shopId     String?   @db.ObjectId
+  shop       Shop?      @relation(fields: [shopId], references: [id])
+  messages   Message[]
+  sessionId  String?   @db.ObjectId
+  session    Session?  @relation(fields: [sessionId], references: [id])
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  @@index([userId])
+  @@index([shopId])
+  @@index([sessionId])
+}
+
+model Agent {
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  shopId         String   @db.ObjectId
+  shop           Shop     @relation(fields: [shopId], references: [id])
+  identification String
+  role           String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([shopId])
+}
+
+model User {
+  id            String         @id @default(auto()) @map("_id") @db.ObjectId
+  shopId        String         @db.ObjectId
+  shop          Shop           @relation(fields: [shopId], references: [id])
+  externalId    String         @unique
+  nom           String?
+  prenom        String?
+  email         String?        @unique
+  conversations Conversation[]
+  session       Session[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  @@index([shopId])
+}
+
+model Message {
+  id             String       @id @default(auto()) @map("_id") @db.ObjectId
+  conversationId String       @db.ObjectId
+  conversation   Conversation @relation(fields: [conversationId], references: [id])
+  sender         String
+  content        String
+  timestamp      DateTime     @default(now())
+
+  @@index([conversationId])
+  @@index([timestamp])
+}
+
+model Session {
+  id            String         @id @default(auto()) @map("_id") @db.ObjectId
+  userId        String?        @db.ObjectId
+  user          User?          @relation(fields: [userId], references: [id])
+  shopId        String         @db.ObjectId
+  shop          Shop           @relation(fields: [shopId], references: [id])
+  conversations Conversation[]
+  startedAt     DateTime       @default(now())
+  endedAt       DateTime?
+}
